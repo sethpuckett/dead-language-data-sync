@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/sethpuckett/dead-language-data-sync#readme",
   "dependencies": {
-    "firebase": "^6.0.2"
+    "firebase": "^6.0.2",
+    "tabletop": "^1.5.2"
   }
 }
