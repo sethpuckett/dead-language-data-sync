@@ -1,0 +1,21 @@
+{
+  "name": "dead-language-data-sync",
+  "version": "1.0.0",
+  "description": "tool for syncing language data to google firestore",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sethpuckett/dead-language-data-sync.git"
+  },
+  "author": "Seth Puckett",
+  "bugs": {
+    "url": "https://github.com/sethpuckett/dead-language-data-sync/issues"
+  },
+  "homepage": "https://github.com/sethpuckett/dead-language-data-sync#readme",
+  "dependencies": {
+    "firebase": "^6.0.2"
+  }
+}
