@@ -69,6 +69,7 @@ function saveStageData(tabletop, allMetadata) {
     // save stage data to firestore
     firebase.firestore().collection('stages').doc(sheetName).set({
       name: metadata.name,
+      type: metadata.type,
       vocab: vocab
     }).then(() => {
       console.log(`Stage ${sheetName} successfully written!`);
