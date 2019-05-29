@@ -15,12 +15,34 @@ function startSync() {
 function spreadsheetLoaded(data, tabletop) {
   // Find a sheet with the name metadata and load all data
   const metadataSheet = tabletop.sheets('metadata');
+  const lessonSheet = tabletop.sheets('lessons');
   const allMetadata = metadataSheet.all();
+  const lessons = lessonSheet.all();
 
+  saveLessonData(lessons);
+  saveStageData(tabletop, allMetadata);
+}
+
+function saveLessonData(lessons) {
+  lessons.forEach(function(lesson) {
+    // save lesson data to firestore
+    firebase.firestore().collection('lessons').doc(lesson.id).set({
+      name: lesson.name,
+      info: lesson.info.split('\n'), // split on comma, unless in quotes
+      stages: lesson.stages.split(','),
+    }).then(() => {
+      console.log(`Lesson ${lesson.id} successfully written!`);
+    }).catch((error) => {
+      console.log(error);
+    });
+  });
+}
+
+function saveStageData(tabletop, allMetadata) {
   // for each sheet in the spreadsheet
   tabletop.foundSheetNames.forEach(function(sheetName) {
-    // ignore metadata sheet and anything that starts with 'ignore-'
-    if (sheetName === 'metadata' || sheetName.startsWith('ignore-')) {
+    // ignore metadata & lesson sheets and anything that starts with 'ignore-'
+    if (sheetName === 'lessons' || sheetName === 'metadata' || sheetName.startsWith('ignore-')) {
       return;
     }
 
@@ -44,12 +66,12 @@ function spreadsheetLoaded(data, tabletop) {
       }
     });
 
-    // save lesson data to firestore
-    firebase.firestore().collection('lessons').doc(sheetName).set({
+    // save stage data to firestore
+    firebase.firestore().collection('stages').doc(sheetName).set({
       name: metadata.name,
       vocab: vocab
     }).then(() => {
-      console.log(`Document ${sheetName} successfully written!`);
+      console.log(`Stage ${sheetName} successfully written!`);
     }).catch((error) => {
       console.log(error);
     });
