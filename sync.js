@@ -51,6 +51,10 @@ function saveStageData(tabletop, allMetadata) {
       return metadataEntry.id === sheetName;
     });
 
+    if (metadata == null) {
+      throw Error(`metadata is missing for stage ${sheetName}.`);
+    }
+
     // load all vocab in the sheet
     const rawVocab = tabletop.sheets(sheetName).elements
     // cleanup vocab (remove blank strings, split alternatives array)
