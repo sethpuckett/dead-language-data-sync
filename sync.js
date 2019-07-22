@@ -29,7 +29,7 @@ function saveLessonData(lessons) {
     firebase.firestore().collection('lessons').doc(lesson.id).set({
       name: lesson.name,
       info: lesson.info.split('\n'), // split on comma, unless in quotes
-      stages: lesson.stages.split(','),
+      stages: lesson.stages.split(',').map(s => s.trim()),
       requirements: lesson.requirements.split(',').filter(e => e !== ''),
     }).then(() => {
       console.log(`Lesson ${lesson.id} successfully written!`);
