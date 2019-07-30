@@ -30,7 +30,7 @@ function saveLessonData(lessons) {
       name: lesson.name,
       info: lesson.info.split('\n'), // split on comma, unless in quotes
       stages: lesson.stages.split(',').map(s => s.trim()),
-      requirements: lesson.requirements.split(',').filter(e => e !== ''),
+      requirements: lesson.requirements.split(',').map(s => s.trim()).filter(e => e !== ''),
     }).then(() => {
       console.log(`Lesson ${lesson.id} successfully written!`);
     }).catch((error) => {
