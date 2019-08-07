@@ -5,14 +5,17 @@ require("firebase/firestore");
 require("./config.js");
 
 function startSync() {
+  console.log('Initializing TabletopJS');
   Tabletop.init({
     key: config.key,
     callback: spreadsheetLoaded,
+    // debug: true,
     errorCallback: error => console.log(error)
   });
 }
 
 function spreadsheetLoaded(data, tabletop) {
+  console.log('Spreadsheet loaded');
   // Find a sheet with the name metadata and load all data
   const metadataSheet = tabletop.sheets('metadata');
   const lessonSheet = tabletop.sheets('lessons');
@@ -32,7 +35,7 @@ function saveLessonData(lessons) {
       stages: lesson.stages.split(',').map(s => s.trim()),
       requirements: lesson.requirements.split(',').map(s => s.trim()).filter(e => e !== ''),
     }).then(() => {
-      console.log(`Lesson ${lesson.id} successfully written!`);
+      console.log(`Lesson ${lesson.id} successfully written`);
     }).catch((error) => {
       console.log(error);
     });
@@ -77,7 +80,7 @@ function saveStageData(tabletop, allMetadata) {
       type: metadata.type,
       vocab: vocab
     }).then(() => {
-      console.log(`Stage ${sheetName} successfully written!`);
+      console.log(`Stage ${sheetName} successfully written`);
     }).catch((error) => {
       console.log(error);
     });
@@ -85,6 +88,7 @@ function saveStageData(tabletop, allMetadata) {
 }
 
 // sign in and sync data
+console.log('Initializing Firebase');
 firebase.initializeApp(config.firebaseConfig);
 firebase.auth().onAuthStateChanged(function(user) { if (user) { startSync(); } });
 firebase.auth().signInWithEmailAndPassword(config.user, config.pass).catch(function(error) { console.log(error); });
